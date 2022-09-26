@@ -44,13 +44,13 @@ function TestPaddle.test_paddle_stops_on_wall()
     luaunit.assertEquals(paddle.position.x, 0)
 end
 
-function TestPaddle.test_paddle_handles_keys_to_move()
-    local cases = {
-        { key = 'right', position = 300 },
-        { key = 'left', position = 100 },
-        { key = 'p', position = 200 },
-    }
-    for _, case in ipairs(cases) do
+TestPaddle.handle_keys_cases = {
+    { key = 'right', position = 300 },
+    { key = 'left', position = 100 },
+    { key = 'p', position = 200 },
+}
+for i, case in ipairs(TestPaddle.handle_keys_cases) do
+    TestPaddle['test_paddle_handles_keys_to_move_' .. i] = function()
         local paddle = Paddle.new {
             size = { x = 50 },
             position = { x = 200, y = 500 },
@@ -69,12 +69,12 @@ function TestPaddle.test_paddle_handles_keys_to_move()
     end
 end
 
-function TestPaddle.test_paddle_handles_multiple_keys()
-    local cases = {
-        { seq = {'left', 'right'}, position = 300 },
-        { seq = {'right', 'left'}, position = 100 },
-    }
-    for _, case in ipairs(cases) do
+TestPaddle.multiple_key_cases = {
+    { seq = {'left', 'right'}, position = 300 },
+    { seq = {'right', 'left'}, position = 100 },
+}
+for i, case in ipairs(TestPaddle.multiple_key_cases) do
+    TestPaddle['test_paddle_handles_multiple_keys_' .. i] =  function()
         local paddle = Paddle.new {
             size = { x = 50 },
             position = { x = 200, y = 500 },
@@ -89,12 +89,13 @@ function TestPaddle.test_paddle_handles_multiple_keys()
     end
 end
 
-function TestPaddle.test_paddle_handle_key_still_pressed()
-    local cases = {
-        { seq = {'left', 'right'}, position = 100 },
-        { seq = {'right', 'left'}, position = 300 },
-    }
-    for _, case in ipairs(cases) do
+
+TestPaddle.still_pressed_cases = {
+    { seq = {'left', 'right'}, position = 100 },
+    { seq = {'right', 'left'}, position = 300 },
+}
+for i, case in ipairs(TestPaddle.still_pressed_cases) do
+    TestPaddle['test_paddle_handle_key_still_pressed_' .. i] = function()
         local paddle = Paddle.new {
             size = { x = 50 },
             position = { x = 200, y = 500 },
