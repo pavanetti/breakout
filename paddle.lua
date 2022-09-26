@@ -9,8 +9,8 @@ function Paddle.new(obj)
     return setmetatable(obj, { __index = Paddle })
 end
 
-function Paddle:draw(screen)
-    screen.rectangle(
+function Paddle:draw(graphics)
+    graphics.rectangle(
         'fill',
         self.position.x, self.position.y,
         self.size.x, self.size.y
