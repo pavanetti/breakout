@@ -21,35 +21,21 @@ function Ball:update(dt, screen)
 end
 
 function Ball:bounce(screen)
-    self:bounce_x(screen)
-    self:bounce_y(screen)
-end
-
-function Ball:bounce_x(screen)
-    local vertex = self.radius
-    if self.position.x < vertex then
-        self.position.x = 2 * vertex - self.position.x
-        self.speed.x = -self.speed.x
-    end
-
-    local vertex = screen.getWidth() - self.radius
-    if self.position.x > vertex then
-        self.position.x = 2 * vertex - self.position.x
-        self.speed.x = -self.speed.x
+    for v, d in pairs{ x = screen.getWidth(), y = screen.getHeight() } do
+        self:bounce_axis(v, d)
     end
 end
 
-function Ball:bounce_y(screen)
-    local vertex = self.radius
-    if self.position.y < vertex then
-        self.position.y = 2 * vertex - self.position.y
-        self.speed.y = -self.speed.y
-    end
+function Ball:bounce_axis(v, max_dimension)
+    if self.speed[v] == 0 then return end
 
-    local vertex = screen.getHeight() - self.radius
-    if self.position.y > vertex then
-        self.position.y = 2 * vertex - self.position.y
-        self.speed.y = -self.speed.y
+    local direction = self.speed[v] < 0 and -1 or 1
+    local vertex = direction < 0
+        and self.radius
+        or max_dimension - self.radius
+    if self.position[v] * direction > vertex * direction then
+        self.position[v] = 2 * vertex - self.position[v]
+        self.speed[v] = -self.speed[v]
     end
 end
 
