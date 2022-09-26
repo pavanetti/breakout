@@ -7,7 +7,8 @@ local screen = {
     getHeight = function() return 600 end,
 }
 
-function test_paddle_moves_horizontally()
+TestPaddle = {}
+function TestPaddle.test_paddle_moves_horizontally()
     local paddle = Paddle.new {
         size = { x = 50 },
         position = { x = 0, y = 500 },
@@ -25,7 +26,7 @@ function test_paddle_moves_horizontally()
     luaunit.assertEquals(paddle.position.x, 50)
 end
 
-function test_paddle_stops_on_wall()
+function TestPaddle.test_paddle_stops_on_wall()
     local paddle = Paddle.new {
         size = { x = 50 },
         position = { x = 600, y = 500 },
@@ -43,7 +44,7 @@ function test_paddle_stops_on_wall()
     luaunit.assertEquals(paddle.position.x, 0)
 end
 
-function test_paddle_handles_keys_to_move()
+function TestPaddle.test_paddle_handles_keys_to_move()
     local cases = {
         { key = 'right', position = 300 },
         { key = 'left', position = 100 },
@@ -68,7 +69,7 @@ function test_paddle_handles_keys_to_move()
     end
 end
 
-function test_paddle_handles_multiple_keys()
+function TestPaddle.test_paddle_handles_multiple_keys()
     local cases = {
         { seq = {'left', 'right'}, position = 300 },
         { seq = {'right', 'left'}, position = 100 },
@@ -88,7 +89,7 @@ function test_paddle_handles_multiple_keys()
     end
 end
 
-function test_paddle_handle_key_still_pressed()
+function TestPaddle.test_paddle_handle_key_still_pressed()
     local cases = {
         { seq = {'left', 'right'}, position = 100 },
         { seq = {'right', 'left'}, position = 300 },
@@ -108,5 +109,3 @@ function test_paddle_handle_key_still_pressed()
         luaunit.assertEquals(paddle.position.x, case.position)
     end
 end
-
-os.exit(luaunit.LuaUnit.run())

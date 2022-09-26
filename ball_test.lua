@@ -7,7 +7,8 @@ local screen = {
     getHeight = function() return 600 end,
 }
 
-function test_ball_moves()
+TestBall = {}
+function TestBall.test_ball_moves()
     local ball = Ball.new {
         radius = 0,
         position = { x = 0, y = 0 },
@@ -20,7 +21,7 @@ function test_ball_moves()
     luaunit.assertEquals(ball.position.y, 300)
 end
 
-function test_ball_bounces()
+function TestBall.test_ball_bounces()
     local cases = {
         {
             initial = { x = 20, y = 20},
@@ -57,5 +58,3 @@ function test_ball_bounces()
         luaunit.assertEquals(ball.position.y, case.final.y)
     end
 end
-
-os.exit(luaunit.LuaUnit.run())
