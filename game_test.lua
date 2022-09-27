@@ -1,6 +1,8 @@
 local luaunit = require 'luaunit'
 
 local Game = require 'game'
+local Ball = require 'ball'
+local Paddle = require 'paddle'
 
 local screen = {
     getWidth = function() return 800 end,
@@ -53,4 +55,22 @@ function TestGame.test_starts_game_on_key_pressed()
     game:update(1, screen)
 
     luaunit.assertItemsEquals(ball.position, { x = 650, y = 320 })
+end
+
+function TestGame.test_ball_bounces_on_paddle()
+    local paddle = Paddle.new {
+        position = { x = 350, y = 480 },
+        size = { x = 100, y = 20 },
+    }
+    local ball = Ball.new {
+        radius = 10,
+        position = { x = 350, y = 430 },
+        speed = { x = 40, y = 40 },
+    }
+    local game = Game.new { ball = ball, paddle = paddle, running = true }
+
+    game:update(2, screen)
+
+    luaunit.assertIsTrue(ball.speed.y < 0)
+    luaunit.assertItemsEquals(ball.position, { x = 430, y = 430 })
 end

@@ -13,16 +13,30 @@ function Ball:draw(graphics)
     )
 end
 
-function Ball:update(dt, screen)
+function Ball:update(dt, screen, paddle)
     self.position.x = self.position.x + self.speed.x * dt
     self.position.y = self.position.y + self.speed.y * dt
 
-    self:bounce(screen)
+    self:bounce(screen, paddle)
 end
 
-function Ball:bounce(screen)
+function Ball:bounce(screen, paddle)
+    self:bound_on_paddle(paddle)
     for v, d in pairs{ x = screen.getWidth(), y = screen.getHeight() } do
         self:bounce_axis(v, d)
+    end
+end
+
+function Ball:bound_on_paddle(paddle)
+    if paddle and self.speed.y > 0 then
+        local vertex = paddle.position.y - self.radius
+        local below_paddle = self.position.y > vertex
+        local between_paddle_edges = paddle.position.x <= self.position.x
+            and self.position.x <= paddle.position.x + paddle.size.x
+        if below_paddle and between_paddle_edges then
+            self.position.y = 2 * vertex - self.position.y
+            self.speed.y = -self.speed.y
+        end
     end
 end
 

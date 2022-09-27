@@ -61,7 +61,7 @@ end
 
 function Game:update(dt, screen)
     if self.running then
-        self.ball:update(dt, screen)
+        self.ball:update(dt, screen, self.paddle)
         self.paddle:update(dt, screen)
     end
 end
